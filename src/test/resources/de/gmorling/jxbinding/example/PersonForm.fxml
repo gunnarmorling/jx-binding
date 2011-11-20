@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" alignment="top_left" hgap="8" vgap="8" style="-fx-padding: 10 0 0 10" fx:controller="de.gmorling.jxbinding.example.PersonFormController">
+    <children>
+ 
+        <Label text="%userName" GridPane.columnIndex="0" GridPane.rowIndex="1" labelFor="$usernameField"/>
+        <TextField fx:id="fldUserName" prefColumnCount="20" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="%userNamePrompt"/>
+ 		<Label fx:id="lblUserNameViolations" GridPane.columnIndex="3" GridPane.rowIndex="1" labelFor="$fldUserName" style="-fx-text-fill: #ff0000;"/>
+ 
+ 		<Label text="%age" GridPane.columnIndex="0" GridPane.rowIndex="2" labelFor="$fldAge"/>
+        <TextField fx:id="fldAge" prefColumnCount="20" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="%agePrompt"/>
+ 		<Label fx:id="lblAgeViolations" GridPane.columnIndex="3" GridPane.rowIndex="2" labelFor="$fldAge" style="-fx-text-fill: #ff0000;"/>
+ 
+ 		<Label text="%birthday" GridPane.columnIndex="0" GridPane.rowIndex="3" labelFor="$fldBirthday"/>
+        <TextField fx:id="fldBirthday" prefColumnCount="20" GridPane.columnIndex="1" GridPane.rowIndex="3" promptText="%birthdayPrompt"/>
+        <Label fx:id="lblBirthdayViolations" GridPane.columnIndex="3" GridPane.rowIndex="3" labelFor="$fldBirthday" style="-fx-text-fill: #ff0000;"/>
+
+ 		<Label text="%gender" GridPane.columnIndex="0" GridPane.rowIndex="4" labelFor="$cbGender"/>
+        <ChoiceBox fx:id="cbGender" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <Label fx:id="lblGenderViolations" GridPane.columnIndex="3" GridPane.rowIndex="4" labelFor="$cbGender" style="-fx-text-fill: #ff0000;"/>
+
+
+        <Button fx:id="submitButton" text="%submit"
+                    GridPane.columnIndex="1" GridPane.rowIndex="5"
+                    onAction="#handleSubmitButtonAction"/>
+ 
+        <Label fx:id="buttonStatusText" 
+                    GridPane.columnIndex="1" GridPane.rowIndex="6"
+                    style="-fx-text-fill: #ff0000;"/>
+                    
+        <Label fx:id="lblAge" 
+                    GridPane.columnIndex="1" GridPane.rowIndex="7"
+                    style="-fx-text-fill: #ff0000;"/>                    
+                    
+                            <Label fx:id="lblBirthday" 
+                    GridPane.columnIndex="1" GridPane.rowIndex="8"
+                    style="-fx-text-fill: #ff0000;"/>                    
+    </children>
+</GridPane>
