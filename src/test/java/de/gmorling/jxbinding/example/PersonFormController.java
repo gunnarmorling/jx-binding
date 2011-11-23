@@ -15,8 +15,6 @@
  */
 package de.gmorling.jxbinding.example;
 
-import static de.gmorling.jxbinding.UpdatePolicy.INSTANTLY;
-import static de.gmorling.jxbinding.UpdatePolicy.NEVER;
 import static de.gmorling.jxbinding.UpdatePolicy.ON_REQUEST;
 
 import java.net.URL;
@@ -48,17 +46,16 @@ import de.gmorling.jxbinding.example.model.Person;
  */
 public class PersonFormController implements Initializable {
 
+	private BindingContext context;
+	private final Person model = new Person();
+	
+	@FXML private Label lblUserName;
 	@FXML private TextField fldUserName;
 	@FXML private Label lblUserNameViolations;
 	
-	@FXML
-	private Label buttonStatusText;
-
-	@FXML private Label lblAge;
 	@FXML private TextField fldAge;
 	@FXML private Label lblAgeViolations;
 	
-	@FXML private Label lblBirthday;
 	@FXML private TextField fldBirthday;
 	@FXML private Label lblBirthdayViolations;
 	
@@ -67,11 +64,9 @@ public class PersonFormController implements Initializable {
 	
 	
 	@FXML private Button submitButton;
+	@FXML private Label lblAllViolations;
+	@FXML private Label lblPerson;
 	
-	private BindingContext context;
-
-	private final Person model = new Person();
-
 	@FXML
 	private void handleSubmitButtonAction(ActionEvent event) {
 
@@ -98,6 +93,7 @@ public class PersonFormController implements Initializable {
 		
 		final Binding<String, String> nameBinding = context.bind(model.nameProperty())
 			.withModelUpdatePolicy(ON_REQUEST)
+			.withLabel(lblUserName)
 			.to(fldUserName.textProperty());
 
 		context.bind(nameBinding.targetConstraintViolationsProperty())
@@ -106,9 +102,6 @@ public class PersonFormController implements Initializable {
 
 		context.autoValidateTargetPropertyOf(nameBinding).upon(fldUserName.focusedProperty()).becoming(false);
 		
-//		buttonStatusText.textProperty().bind(model.nameProperty());
-//		usernameField.textProperty().bindBidirectional(model.nameProperty());
-
 
 		final Binding<Number, String> ageBinding = context.bind(model.ageProperty())
 			.withModelUpdatePolicy(ON_REQUEST)
@@ -120,8 +113,8 @@ public class PersonFormController implements Initializable {
 		
 		context.autoValidateTargetPropertyOf(ageBinding).upon(fldAge.focusedProperty()).becoming(false);
 		
-		context.bind(model.ageProperty()).to(lblAge.textProperty());
-
+//		context.bind(model.ageProperty()).to(lblAge.textProperty());
+System.out.println(fldUserName.textProperty().getBean());
 		final Binding<Date, String> birthdayBinding = context.bind(model.birthdayProperty())
 				.withConverter(new StringToDateConverter("dd.MM.yyyy"))
 				.withModelUpdatePolicy(ON_REQUEST)
@@ -132,15 +125,22 @@ public class PersonFormController implements Initializable {
 			.withConverter(new StringToConstraintViolationSetConverter())
 			.to(lblBirthdayViolations.textProperty());
 		
-		context.bind(model.birthdayProperty())
-				.withConverter(new StringToDateConverter("dd.MM.yyyy"))
-				.withModelUpdatePolicy(NEVER)
-				.withTargetUpdatePolicy(INSTANTLY)
-				.to(lblBirthday.textProperty());
+		context.bind(context.constraintViolationsProperty())
+			.withConverter(new StringToConstraintViolationSetConverter())
+			.to(lblAllViolations.textProperty());
+
+		context.bind(model.stringProperty()).to(lblPerson.textProperty());
+		
+//		context.bind(model.birthdayProperty())
+//				.withConverter(new StringToDateConverter("dd.MM.yyyy"))
+//				.withModelUpdatePolicy(NEVER)
+//				.withTargetUpdatePolicy(INSTANTLY)
+//				.to(lblBirthday.textProperty());
 		
 		context.autoValidateTargetPropertyOf(birthdayBinding).upon(fldBirthday.focusedProperty()).becoming(false);
 		
-		submitButton.disableProperty().bind(context.isValidProperty().not());
+		
+//		submitButton.disableProperty().bind(context.isValidProperty().not());
 	}
 
 }

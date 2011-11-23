@@ -45,7 +45,7 @@ public class Person {
     private final ObjectProperty<Gender> gender = new SimpleObjectProperty<Gender>(this, "gender");
     
     @Size.List ({
-    	@Size(min=5, max=10),
+//    	@Size(min=5, max=10),
     	@Size(min=3, max=10)
     })
     @NotNull
@@ -70,6 +70,7 @@ public class Person {
     public void setGender(Gender gender) { this.gender.set(gender); }
     public ObjectProperty<Gender> genderProperty() { return gender; }
 	
+    public StringProperty stringProperty() { return new SimpleStringProperty(toString()); }
     @Override
 	public String toString() {
 		return "Person [name=" + name.get() + ", age=" + age.get() + ", birthday="

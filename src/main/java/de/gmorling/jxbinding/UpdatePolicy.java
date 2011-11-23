@@ -21,11 +21,11 @@ package de.gmorling.jxbinding;
  * @author Gunnar Morling
  */
 public enum UpdatePolicy {
-    
-	NEVER,
-	
-	ON_REQUEST, 
-	
-	INSTANTLY;
-    
+
+    NEVER,
+
+    ON_REQUEST,
+
+    INSTANTLY;
+
 }

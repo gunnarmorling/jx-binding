@@ -8,7 +8,7 @@
 <GridPane xmlns:fx="http://javafx.com/fxml" alignment="top_left" hgap="8" vgap="8" style="-fx-padding: 10 0 0 10" fx:controller="de.gmorling.jxbinding.example.PersonFormController">
     <children>
  
-        <Label text="%userName" GridPane.columnIndex="0" GridPane.rowIndex="1" labelFor="$usernameField"/>
+        <Label fx:id="lblUserName" text="%userName" GridPane.columnIndex="0" GridPane.rowIndex="1" labelFor="$usernameField"/>
         <TextField fx:id="fldUserName" prefColumnCount="20" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="%userNamePrompt"/>
  		<Label fx:id="lblUserNameViolations" GridPane.columnIndex="3" GridPane.rowIndex="1" labelFor="$fldUserName" style="-fx-text-fill: #ff0000;"/>
  
@@ -24,21 +24,10 @@
         <ChoiceBox fx:id="cbGender" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
         <Label fx:id="lblGenderViolations" GridPane.columnIndex="3" GridPane.rowIndex="4" labelFor="$cbGender" style="-fx-text-fill: #ff0000;"/>
 
-
-        <Button fx:id="submitButton" text="%submit"
-                    GridPane.columnIndex="1" GridPane.rowIndex="5"
-                    onAction="#handleSubmitButtonAction"/>
- 
-        <Label fx:id="buttonStatusText" 
-                    GridPane.columnIndex="1" GridPane.rowIndex="6"
-                    style="-fx-text-fill: #ff0000;"/>
-                    
-        <Label fx:id="lblAge" 
-                    GridPane.columnIndex="1" GridPane.rowIndex="7"
-                    style="-fx-text-fill: #ff0000;"/>                    
-                    
-                            <Label fx:id="lblBirthday" 
-                    GridPane.columnIndex="1" GridPane.rowIndex="8"
-                    style="-fx-text-fill: #ff0000;"/>                    
+        <Button fx:id="submitButton" text="%submit" GridPane.columnIndex="1" GridPane.rowIndex="5" onAction="#handleSubmitButtonAction"/>
+        
+        <Label fx:id="lblAllViolations" GridPane.columnIndex="1" GridPane.rowIndex="6" style="-fx-text-fill: #ff0000;"/>
+        <Label fx:id="lblPerson" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                
     </children>
 </GridPane>

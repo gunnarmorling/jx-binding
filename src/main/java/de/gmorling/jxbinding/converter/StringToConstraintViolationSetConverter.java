@@ -17,48 +17,45 @@ package de.gmorling.jxbinding.converter;
 
 import java.util.List;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import javax.validation.ConstraintViolation;
+import de.gmorling.jxbinding.BindingViolation;
 
 /**
  * 
  * @author Gunnar Morling
  *
  */
-public class StringToConstraintViolationSetConverter implements Converter<List<ConstraintViolation<?>>, String> {
+public class StringToConstraintViolationSetConverter implements Converter<List<BindingViolation>, String> {
 
     public StringToConstraintViolationSetConverter() {
     }
     
     @Override
-	public List<ConstraintViolation<?>> toModel(String target) {
+	public List<BindingViolation> toModel(String target) {
         throw new UnsupportedOperationException("Conversion not supported");
     }
 
     @Override
-	public String toTarget(List<ConstraintViolation<?>> model) {
+	public String toTarget(List<BindingViolation> model) {
     	
     	StringBuilder sb = new StringBuilder();
     	
-    	for (ConstraintViolation<?> oneViolation : model) {
+    	for (BindingViolation oneViolation : model) {
+    		
+    		if(oneViolation.getLabel() != null) {
+    			sb.append(oneViolation.getLabel());
+    			sb.append(" ");
+    		}
+    		
 			sb.append(oneViolation.getMessage());
-			sb.append(", ");
+			sb.append("\n");
 		}
     	
     	if(sb.length() > 0) {
-    		return sb.substring(0, sb.length() - 2);
+    		return sb.substring(0, sb.length() - 1);
     	}
     	else {
     		return "";
     	}
     	
     }
-    
-//    @Override
-	public ObservableList<ConstraintViolation<?>> getDefaultValue() {
-        return FXCollections.emptyObservableList();
-    }
-    
 }
