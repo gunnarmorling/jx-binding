@@ -16,6 +16,7 @@
 package de.gmorling.jxbinding.example;
 
 import static de.gmorling.jxbinding.UpdatePolicy.ON_REQUEST;
+import static de.gmorling.jxbinding.converter.StringBindingViolationListConverter.SHORT_FORMAT;
 
 import java.net.URL;
 import java.util.Date;
@@ -34,7 +35,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import de.gmorling.jxbinding.Binding;
 import de.gmorling.jxbinding.BindingContext;
-import de.gmorling.jxbinding.converter.StringToConstraintViolationSetConverter;
+import de.gmorling.jxbinding.converter.StringBindingViolationListConverter;
 import de.gmorling.jxbinding.converter.StringToDateConverter;
 import de.gmorling.jxbinding.example.model.Gender;
 import de.gmorling.jxbinding.example.model.Person;
@@ -47,8 +48,12 @@ import de.gmorling.jxbinding.example.model.Person;
 public class PersonFormController implements Initializable {
 
 	private BindingContext context;
+	
 	private final Person model = new Person();
 	
+    private final ObjectProperty<ObservableList<Gender>> gendersProperty = 
+        new SimpleObjectProperty<ObservableList<Gender>>(FXCollections.observableArrayList(Gender.values()));
+    
 	@FXML private Label lblUserName;
 	@FXML private TextField fldUserName;
 	@FXML private Label lblUserNameViolations;
@@ -73,7 +78,6 @@ public class PersonFormController implements Initializable {
 		System.out.println("You clicked me!");
 
 		context.updateModels();
-		System.out.println(model);
 	}
 
 	@Override
@@ -81,52 +85,44 @@ public class PersonFormController implements Initializable {
 
 		context = new BindingContext();
 
-		ObservableList<Gender> genders = FXCollections.observableArrayList(Gender.values());
-		ObjectProperty<ObservableList<Gender>> gendersProperty = new SimpleObjectProperty<ObservableList<Gender>>(genders);
-		
-		Binding<ObservableList<Gender>, ObservableList<Gender>> gendersBinding = context.bind(gendersProperty).to(cbGender.itemsProperty());
-		gendersBinding.updateTargetProperty();
-		cbGender.selectionModelProperty().getValue().selectFirst();
-		
-		context.bind(model.genderProperty()).to(cbGender.selectionModelProperty().getValue().selectedItemProperty());
-		
-		
-		final Binding<String, String> nameBinding = context.bind(model.nameProperty())
+		//name
+		Binding<String, String> nameBinding = context.bind(model.nameProperty())
 			.withModelUpdatePolicy(ON_REQUEST)
 			.withLabel(lblUserName)
 			.to(fldUserName.textProperty());
 
 		context.bind(nameBinding.targetConstraintViolationsProperty())
-			.withConverter(new StringToConstraintViolationSetConverter())
+			.withConverter(new StringBindingViolationListConverter(SHORT_FORMAT))
 			.to(lblUserNameViolations.textProperty());
 
 		context.autoValidateTargetPropertyOf(nameBinding).upon(fldUserName.focusedProperty()).becoming(false);
 		
-
-		final Binding<Number, String> ageBinding = context.bind(model.ageProperty())
+		//age
+		Binding<Number, String> ageBinding = context.bind(model.ageProperty())
 			.withModelUpdatePolicy(ON_REQUEST)
 			.to(fldAge.textProperty());
 		
 		context.bind(ageBinding.targetConstraintViolationsProperty())
-				.withConverter(new StringToConstraintViolationSetConverter())
-				.to(lblAgeViolations.textProperty());
+			.withConverter(new StringBindingViolationListConverter(SHORT_FORMAT))
+			.to(lblAgeViolations.textProperty());
 		
 		context.autoValidateTargetPropertyOf(ageBinding).upon(fldAge.focusedProperty()).becoming(false);
 		
-//		context.bind(model.ageProperty()).to(lblAge.textProperty());
-System.out.println(fldUserName.textProperty().getBean());
-		final Binding<Date, String> birthdayBinding = context.bind(model.birthdayProperty())
-				.withConverter(new StringToDateConverter("dd.MM.yyyy"))
-				.withModelUpdatePolicy(ON_REQUEST)
-				.withTargetUpdatePolicy(ON_REQUEST)
-				.to(fldBirthday.textProperty());
+		//birthday
+		Binding<Date, String> birthdayBinding = context.bind(model.birthdayProperty())
+		    .withConverter(new StringToDateConverter("dd.MM.yyyy"))
+		    .withModelUpdatePolicy(ON_REQUEST)
+		    .withTargetUpdatePolicy(ON_REQUEST)
+		    .to(fldBirthday.textProperty());
 
 		context.bind(birthdayBinding.targetConstraintViolationsProperty())
-			.withConverter(new StringToConstraintViolationSetConverter())
+			.withConverter(new StringBindingViolationListConverter(SHORT_FORMAT))
 			.to(lblBirthdayViolations.textProperty());
 		
+		context.autoValidateTargetPropertyOf(birthdayBinding).upon(fldBirthday.focusedProperty()).becoming(false);
+
 		context.bind(context.constraintViolationsProperty())
-			.withConverter(new StringToConstraintViolationSetConverter())
+			.withConverter(new StringBindingViolationListConverter())
 			.to(lblAllViolations.textProperty());
 
 		context.bind(model.stringProperty()).to(lblPerson.textProperty());
@@ -137,10 +133,15 @@ System.out.println(fldUserName.textProperty().getBean());
 //				.withTargetUpdatePolicy(INSTANTLY)
 //				.to(lblBirthday.textProperty());
 		
-		context.autoValidateTargetPropertyOf(birthdayBinding).upon(fldBirthday.focusedProperty()).becoming(false);
 		
-		
-//		submitButton.disableProperty().bind(context.isValidProperty().not());
+	    //gender
+	    context.bind(gendersProperty)
+	        .to(cbGender.itemsProperty())
+	        .updateTargetProperty();
+	    
+	    cbGender.selectionModelProperty().getValue().selectFirst();
+	        
+	    context.bind(model.genderProperty()).to(cbGender.selectionModelProperty().getValue().selectedItemProperty());
 	}
 
 }
