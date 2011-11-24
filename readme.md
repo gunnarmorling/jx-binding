@@ -82,3 +82,9 @@ Validation will happen automatically upon model updates. Additionally it can be 
 
     //validate the movie name if its text field loses the focus    
     context.autoValidateTargetPropertyOf(movieNameBinding).upon(fldMovieName.focusedProperty()).becoming(false);
+    
+# What's next?
+
+To get a better understanding of what jx-binding can do for you, you might be interested in running the contained [example application](https://github.com/gunnarmorling/jx-binding/blob/master/src/test/java/de/gmorling/jxbinding/example/JxBindingExample.java).
+
+In order to run the example it's currently required to manually install the JavaFX 2.0 library into your local Maven repository. To do so just follow [these instructions](http://java.dzone.com/articles/install-javafx-runtime-local).
