@@ -200,8 +200,8 @@ public class Binding<M, T> {
 
             String message;
 
-            if ( ce.getConversionViolation() != null ) {
-                message = ce.getConversionViolation().getMessage();
+            if ( ce.getBindingViolation() != null ) {
+                message = ce.getBindingViolation().getMessage();
             }
             else {
                 message = "Error occurred during conversion";

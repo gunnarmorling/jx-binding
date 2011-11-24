@@ -16,7 +16,6 @@
 package de.gmorling.jxbinding.example;
 
 import static de.gmorling.jxbinding.UpdatePolicy.ON_REQUEST;
-import static de.gmorling.jxbinding.converter.StringBindingViolationListConverter.SHORT_FORMAT;
 
 import java.net.URL;
 import java.util.Date;
@@ -36,7 +35,7 @@ import javafx.scene.control.TextField;
 import de.gmorling.jxbinding.Binding;
 import de.gmorling.jxbinding.BindingContext;
 import de.gmorling.jxbinding.converter.StringBindingViolationListConverter;
-import de.gmorling.jxbinding.converter.StringToDateConverter;
+import de.gmorling.jxbinding.converter.StringDateConverter;
 import de.gmorling.jxbinding.example.model.Gender;
 import de.gmorling.jxbinding.example.model.Person;
 
@@ -58,9 +57,11 @@ public class PersonFormController implements Initializable {
 	@FXML private TextField fldUserName;
 	@FXML private Label lblUserNameViolations;
 	
+	@FXML private Label lblAge;
 	@FXML private TextField fldAge;
 	@FXML private Label lblAgeViolations;
 	
+	@FXML private Label lblBirthday;
 	@FXML private TextField fldBirthday;
 	@FXML private Label lblBirthdayViolations;
 	
@@ -91,33 +92,29 @@ public class PersonFormController implements Initializable {
 			.withLabel(lblUserName)
 			.to(fldUserName.textProperty());
 
-		context.bind(nameBinding.targetConstraintViolationsProperty())
-			.withConverter(new StringBindingViolationListConverter(SHORT_FORMAT))
-			.to(lblUserNameViolations.textProperty());
+		context.bindBindingViolations(nameBinding).to(lblUserNameViolations.textProperty());
 
 		context.autoValidateTargetPropertyOf(nameBinding).upon(fldUserName.focusedProperty()).becoming(false);
 		
 		//age
 		Binding<Number, String> ageBinding = context.bind(model.ageProperty())
 			.withModelUpdatePolicy(ON_REQUEST)
+			.withLabel( lblAge )
 			.to(fldAge.textProperty());
 		
-		context.bind(ageBinding.targetConstraintViolationsProperty())
-			.withConverter(new StringBindingViolationListConverter(SHORT_FORMAT))
-			.to(lblAgeViolations.textProperty());
+		context.bindBindingViolations(ageBinding).to(lblAgeViolations.textProperty());
 		
 		context.autoValidateTargetPropertyOf(ageBinding).upon(fldAge.focusedProperty()).becoming(false);
 		
 		//birthday
 		Binding<Date, String> birthdayBinding = context.bind(model.birthdayProperty())
-		    .withConverter(new StringToDateConverter("dd.MM.yyyy"))
+		    .withConverter(new StringDateConverter("dd.MM.yyyy"))
 		    .withModelUpdatePolicy(ON_REQUEST)
 		    .withTargetUpdatePolicy(ON_REQUEST)
+		    .withLabel( lblBirthday )
 		    .to(fldBirthday.textProperty());
 
-		context.bind(birthdayBinding.targetConstraintViolationsProperty())
-			.withConverter(new StringBindingViolationListConverter(SHORT_FORMAT))
-			.to(lblBirthdayViolations.textProperty());
+		context.bindBindingViolations(birthdayBinding).to(lblBirthdayViolations.textProperty());
 		
 		context.autoValidateTargetPropertyOf(birthdayBinding).upon(fldBirthday.focusedProperty()).becoming(false);
 

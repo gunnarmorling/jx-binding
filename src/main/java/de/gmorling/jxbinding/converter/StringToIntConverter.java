@@ -15,7 +15,7 @@
  */
 package de.gmorling.jxbinding.converter;
 
-import org.hibernate.validator.engine.ConstraintViolationImpl;
+import de.gmorling.jxbinding.BindingViolation;
 
 /**
  * 
@@ -31,7 +31,7 @@ public class StringToIntConverter implements Converter<Number, String> {
         	return target == null ? null : Integer.parseInt(target);
         }
         catch(NumberFormatException nfe) {
-        	throw new ConversionException(new ConstraintViolationImpl<String>(null, "must be a valid number", null, null, null, target, null, null, null));
+            throw new ConversionException(new BindingViolation("must be a valid number"));
         }
     }
 

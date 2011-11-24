@@ -61,11 +61,11 @@ public class StringBindingViolationListConverter implements Converter<List<Bindi
             violationString = violationString.replace( "${message}", message );
 
             sb.append( violationString );
-            sb.append( ", " );
+            sb.append( "\n" );
         }
 
         if ( sb.length() > 0 ) {
-            return sb.substring( 0, sb.length() - 2 );
+            return sb.substring( 0, sb.length() - 1 );
         }
         else {
             return "";

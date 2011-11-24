@@ -45,8 +45,7 @@ public class Person {
     private final ObjectProperty<Gender> gender = new SimpleObjectProperty<Gender>(this, "gender");
     
     @Size.List ({
-//    	@Size(min=5, max=10),
-    	@Size(min=3, max=10)
+    	@Size(min=5, max=10)
     })
     @NotNull
     public String getName() { return name.get(); }

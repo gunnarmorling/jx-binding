@@ -41,6 +41,7 @@ public class ConverterFactory {
         
         try {
             modelPropertyType = modelProperty.getClass().getMethod("getValue").getReturnType();
+
 //        	if(bean != null && name != null) {
 //        		modelPropertyType = bean.getClass().getMethod("get" + capitalize(name)).getReturnType();
 //        	}
@@ -49,7 +50,7 @@ public class ConverterFactory {
 //        	}
         	
             targetPropertyType = targetProperty.getClass().getMethod("getValue").getReturnType();
-            
+            M value = modelProperty.getValue();
             if(modelPropertyType.equals(targetPropertyType)) {
             	return (Converter<M, T>)new NoOpConverter<M>();
             }

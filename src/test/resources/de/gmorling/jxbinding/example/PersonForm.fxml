@@ -12,11 +12,11 @@
         <TextField fx:id="fldUserName" prefColumnCount="20" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="%userNamePrompt"/>
  		<Label fx:id="lblUserNameViolations" GridPane.columnIndex="3" GridPane.rowIndex="1" labelFor="$fldUserName" style="-fx-text-fill: #ff0000;"/>
  
- 		<Label text="%age" GridPane.columnIndex="0" GridPane.rowIndex="2" labelFor="$fldAge"/>
+ 		<Label fx:id="lblAge" text="%age" GridPane.columnIndex="0" GridPane.rowIndex="2" labelFor="$fldAge"/>
         <TextField fx:id="fldAge" prefColumnCount="20" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="%agePrompt"/>
  		<Label fx:id="lblAgeViolations" GridPane.columnIndex="3" GridPane.rowIndex="2" labelFor="$fldAge" style="-fx-text-fill: #ff0000;"/>
  
- 		<Label text="%birthday" GridPane.columnIndex="0" GridPane.rowIndex="3" labelFor="$fldBirthday"/>
+ 		<Label fx:id="lblBirthday" text="%birthday" GridPane.columnIndex="0" GridPane.rowIndex="3" labelFor="$fldBirthday"/>
         <TextField fx:id="fldBirthday" prefColumnCount="20" GridPane.columnIndex="1" GridPane.rowIndex="3" promptText="%birthdayPrompt"/>
         <Label fx:id="lblBirthdayViolations" GridPane.columnIndex="3" GridPane.rowIndex="3" labelFor="$fldBirthday" style="-fx-text-fill: #ff0000;"/>
 

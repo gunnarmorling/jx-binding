@@ -23,4 +23,9 @@ public class BindingViolation {
         return message;
     }
 
+    @Override
+    public String toString() {
+        return "BindingViolation [label=" + label + ", message=" + message + "]";
+    }
+
 }

@@ -15,36 +15,36 @@
  */
 package de.gmorling.jxbinding.converter;
 
-import javax.validation.ConstraintViolation;
+import de.gmorling.jxbinding.BindingViolation;
 
 public class ConversionException extends RuntimeException {
 
 	private static final long serialVersionUID = 373585914744023405L;
 
-	private final ConstraintViolation<?> conversionViolation;
+	private final BindingViolation bindingViolation;
 	
     public ConversionException(String message) {
         super(message);
-        this.conversionViolation = null;
+        this.bindingViolation = null;
     }
 
-    public ConversionException(ConstraintViolation<?> conversionViolation) {
+    public ConversionException(BindingViolation bindingViolation) {
         super();
-        this.conversionViolation = conversionViolation;
+        this.bindingViolation = bindingViolation;
     }
     
     public ConversionException(Throwable cause) {
         super(cause);
-        this.conversionViolation = null;
+        this.bindingViolation = null;
     }
     
     public ConversionException(String message, Throwable cause) {
         super(message, cause);
-        this.conversionViolation = null;
+        this.bindingViolation = null;
     }
     
-    public ConstraintViolation<?> getConversionViolation() {
-		return conversionViolation;
+    public BindingViolation getBindingViolation() {
+		return bindingViolation;
 	}
     
 }

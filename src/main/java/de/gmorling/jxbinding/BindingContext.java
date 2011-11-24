@@ -15,6 +15,8 @@
  */
 package de.gmorling.jxbinding;
 
+import static de.gmorling.jxbinding.converter.StringBindingViolationListConverter.SHORT_FORMAT;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -38,6 +40,7 @@ import javax.validation.Validator;
 
 import de.gmorling.jxbinding.converter.Converter;
 import de.gmorling.jxbinding.converter.ConverterFactory;
+import de.gmorling.jxbinding.converter.StringBindingViolationListConverter;
 
 /**
  * 
@@ -76,6 +79,12 @@ public class BindingContext implements ChangeListener<List<BindingViolation>> {
 
     public <M> BindingBuilderContext<M> bind(Property<M> modelProperty) {
         return new BindingBuilderContext<M>( modelProperty, this );
+    }
+    
+    public ReadOnlyBindingBuilderConverterContext<List<BindingViolation>, String> bindBindingViolations(Binding<?, ?> binding) {
+        
+        return this.bind( binding.targetConstraintViolationsProperty() )
+            .withConverter( new StringBindingViolationListConverter(SHORT_FORMAT) );
     }
 
     public ValidatorContextBuilder autoValidateTargetPropertyOf(Binding<?, ?> binding) {
@@ -259,6 +268,7 @@ public class BindingContext implements ChangeListener<List<BindingViolation>> {
         private final BindingContext bindingContext;
         private final Converter<M, T> converter;
 
+        private String labelText;
         private UpdatePolicy modelUpdatePolicy;
         private UpdatePolicy targetUpdatePolicy;
 
@@ -269,6 +279,11 @@ public class BindingContext implements ChangeListener<List<BindingViolation>> {
             this.converter = converter;
             this.modelUpdatePolicy = modelUpdatePolicy;
             this.targetUpdatePolicy = targetUpdatePolicy;
+        }
+
+        public BindingBuilderConverterContext<M,T> withLabel(Label label) {
+            this.labelText = label.getText();
+            return this;
         }
 
         public BindingBuilderConverterContext<M, T> withModelUpdatePolicy(UpdatePolicy modelUpdatePolicy) {
@@ -286,7 +301,7 @@ public class BindingContext implements ChangeListener<List<BindingViolation>> {
             Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
             Binding<M, T> binding = new Binding<M, T>( modelProperty, targetProperty, modelUpdatePolicy,
-                    targetUpdatePolicy, converter, validator );
+                    targetUpdatePolicy, converter, validator, labelText );
             bindingContext.addBinding( binding );
 
             return binding;
@@ -334,4 +349,5 @@ public class BindingContext implements ChangeListener<List<BindingViolation>> {
         }
 
     }
+
 }

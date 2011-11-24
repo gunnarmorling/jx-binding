@@ -20,22 +20,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.hibernate.validator.engine.ConstraintViolationImpl;
+import de.gmorling.jxbinding.BindingViolation;
 
 /**
  * 
  * @author Gunnar Morling
  *
  */
-public class StringToDateConverter implements Converter<Date, String> {
+public class StringDateConverter implements Converter<Date, String> {
 
     private final DateFormat format;
     
-    public StringToDateConverter(String format) {
+    public StringDateConverter(String format) {
     	this.format = new SimpleDateFormat(format);
     }
     
-    public StringToDateConverter(DateFormat format) {
+    public StringDateConverter(DateFormat format) {
         this.format = format;
     }
     
@@ -46,7 +46,7 @@ public class StringToDateConverter implements Converter<Date, String> {
             return target == null ? null : format.parse(target);
         } 
         catch (ParseException pe) {
-        	throw new ConversionException(new ConstraintViolationImpl<String>(null, "must be a valid date", null, null, null, target, null, null, null));
+        	throw new ConversionException(new BindingViolation("must be a valid date"));
         }
     }
 
